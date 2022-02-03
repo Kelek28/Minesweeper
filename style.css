@@ -1,117 +1,122 @@
-body{
-    background: #FFCDD2;
+body {
+  background: #ffcdd2;
 }
 .p1 {
-    color: blue;
+  color: blue;
 }
 .p2 {
-    color: green;
+  color: green;
 }
 .p3 {
-    color: red;
+  color: red;
 }
 .p0 {
-    color: transparent;
+  color: transparent;
 }
 .p4 {
-    color: darkblue;
+  color: darkblue;
 }
 .p5 {
-    color: darkred;
+  color: darkred;
 }
 .p6 {
-    color: rgb(19, 0, 87);
+  color: rgb(19, 0, 87);
 }
 .p7 {
-    color: rgb(37, 0, 85);
+  color: rgb(37, 0, 85);
 }
 .p {
-    color: rgb(54, 1, 1);
+  color: rgb(54, 1, 1);
 }
 
 .p-1 {
-    color: transparent;
-    background-image: url('./image/bombka.png');
-    background-size: 100%;
-    background-repeat: no-repeat;
-    background-position: center;
+  color: transparent;
+  background-image: url("./image/bombka.png");
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
 }
-.ps{
-    background-image: url('./image/mark.png');
-    background-size: 100%;
-    background-repeat: no-repeat;
+.ps {
+  background-image: url("./image/mark.png");
+  background-size: 100%;
+  background-repeat: no-repeat;
 }
-.pf{
-    background-image: url('./image/flaga.png');
-    background-size: 100%;
-    background-repeat: no-repeat;
+.pf {
+  background-image: url("./image/flaga.png");
+  background-size: 100%;
+  background-repeat: no-repeat;
 }
 
 #Tabela button {
-    width: 20px;
-    height: 20px;
-    position: absolute; 
-    left: 0;
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  left: 0;
 }
 #Tabela {
-    background: white;
-    z-index: 50;
-    border-spacing: 1px;
-    border-collapse: collapse;
-}    
+  background: white;
+  z-index: 50;
+  border-spacing: 1px;
+  border-collapse: collapse;
+}
 #Tabela td {
-    width: 20px;
-    height: 20px;
-    text-align: center;
-    border: gray 1px solid;
-    position: relative;
-    padding: 0;
+  width: 20px;
+  height: 20px;
+  text-align: center;
+  border: gray 1px solid;
+  position: relative;
+  padding: 0;
 }
 
-#hideAll
- {
-   position: fixed;
-   left: 0; 
-   right: 0; 
-   top: 0px; 
-   bottom: 0px; 
-   background-color: #E3F2FD;
-   z-index: 99; 
+#hideAll {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0px;
+  bottom: 0px;
+  background-color: #e3f2fd;
+  z-index: 99;
+}
+.starterButton {
+  font-family: "IBM Plex Sans", sans-serif;
+  font-weight: bold;
+  width: 33%;
+  height: 600px;
+  margin: 1px;
+  background: #00897b;
+  border: none;
+  border-radius: 25px;
+  color: white;
+  font-size: 4em;
+  float: left;
+}
+.starterButton:hover {
+  background: #00695c;
+}
 
- }
- .starterButton{
-    font-family: 'IBM Plex Sans', sans-serif;
-    font-weight:bold ;
-    width: 33%;
-    height: 600px;
-    margin: 1px;
-    background: #00897B;
-    border: none;
-    border-radius: 25px;
-    color: white;
-    font-size: 4em;
-    float: left;
-    
- }
- .starterButton:hover{
-    background: #00695C;
+#wynik {
+  font-size: 4em;
+  font-family: "Holtwood One SC", serif;
+}
+#Reset {
+  display: none;
+}
+#victory,
+#Reset {
+  margin-top: 25px;
+  width: 150px;
+  height: 50px;
+  border: none;
+  border-radius: 10px;
+  background: hsl(49, 91%, 58%);
+  font-size: 1em;
+  font-family: "Holtwood One SC", serif;
+}
 
- }
- 
- #wynik{
-    font-size: 4em;
-    font-family: 'Holtwood One SC', serif;
- }
- #Reset{
-     display: none;
- }
- #wygrana, #Reset{
-    margin-top: 25px ;
-     width: 150px;
-     height: 50px;
-     border: none;
-     border-radius: 10px;
-     background: hsl(49, 91%, 58%) ;
-     font-size: 1em;
-     font-family: 'Holtwood One SC', serif;
- }
+.game {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}

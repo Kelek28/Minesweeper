@@ -1,65 +1,65 @@
 var t = [];
-var bomba = [];
+var bomb = [];
 var buttonArray = [];
-var wielkoscPlanszy;
-var rozmiarTabeli;
-var ileBomb;
-var ileFlag;
-var ileRuchow;
+var boardSize;
+var tableSize;
+var numberOfBombs;
+var numberOfFlags;
+var numberOfMoves;
 var firstMove;
 var gameOver = false;
 var bombPush;
 var sekunda = 0;
 var minuta = 0;
-function UtworzPlansze() {
+function createBoard() {
     t = [];
-    for (wiersz = 0; wiersz < wielkoscPlanszy; wiersz++) {
-        t[wiersz] = [];
-        for (kolumna = 0; kolumna < wielkoscPlanszy; kolumna++) {
-            t[wiersz][kolumna] = 0;
+    for (row = 0; row < boardSize; row++) {
+        t[row] = [];
+        for (column = 0; column < boardSize; column++) {
+            t[row][column] = 0;
         }
     }
 }
-function PokazPlansze() {
+function showBoard() {
     var table = document.createElement("table");
     table.setAttribute("id", "Tabela");
     buttonArray = [];
-    for (let wiersz = 0; wiersz < wielkoscPlanszy; wiersz++) {
-        buttonArray[wiersz] = [];
+    for (let row = 0; row < boardSize; row++) {
+        buttonArray[row] = [];
         var tr = document.createElement("tr");
-        for (let kolumna = 0; kolumna < wielkoscPlanszy; kolumna++) {
+        for (let column = 0; column < boardSize; column++) {
 
             td = document.createElement("td");
-            td.innerHTML = t[wiersz][kolumna];
-            td.className = "p" + t[wiersz][kolumna];
+            td.innerHTML = t[row][column];
+            td.className = "p" + t[row][column];
 
             let button = document.createElement("button");
-            buttonArray[wiersz][kolumna] = button;
+            buttonArray[row][column] = button;
             button.addEventListener("click", function () {
-                
+
                 if (button.className == "pf") {
                     button.className = "";
-                    ileFlag++;
+                    numberOfFlags++;
                 }
-                odkryjPole(wiersz, kolumna);
+                odkryjPole(row, column);
             })
             button.addEventListener("contextmenu", function () {
-                 
-                if (button.className != "pf" && ileFlag != 0 && button.className != "ps") {
+
+                if (button.className != "pf" && numberOfFlags != 0 && button.className != "ps") {
                     button.className += "pf";
-                    ileFlag--;
+                    numberOfFlags--;
                 }
                 else if (button.className == "pf") {
                     button.className = "ps";
-                    ileFlag++;
+                    numberOfFlags++;
                 }
-                else if(button.className == "ps" ){
+                else if (button.className == "ps") {
                     button.className = "";
                 }
                 else {
                     button.className = "";
                 }
-                console.log(ileFlag);
+                console.log(numberOfFlags);
             });
             td.appendChild(button);
 
@@ -67,160 +67,134 @@ function PokazPlansze() {
         }
         table.appendChild(tr);
     }
-    var el = document.getElementById("plansza");
+    var el = document.getElementById("board");
     el.appendChild(table);
 }
-function odkryjPole(wiersz, kolumna) {
-    
-    if (firstMove == true && t[wiersz][kolumna] === -1) {
-        
-        t[wiersz][kolumna] = 0;
+function odkryjPole(row, column) {
+
+    if (firstMove == true && t[row][column] === -1) {
+
+        t[row][column] = 0;
         td.className = "p0";
-        somsiad(wiersz, kolumna, -1);
-        ileBomb++;
-        PostawBomby();
-        PokazPlansze();
+        somsiad(row, column, -1);
+        numberOfBombs++;
+        setBombs();
+        showBoard();
         document.getElementById("Tabela").remove();
     }
-    // stoper
-    // if(firstMove){
-    //     console.log("wywołana")
 
-    //         setInterval(function(){
-    //             sekunda++;
-    //             if(sekunda < 9){
-    //     czas = "0"+minuta+" : 0" + sekunda;
-    //   }
-    //   if (sekunda > 9){
-
-    //     czas = "0"+minuta+" : " + sekunda;
-    //   } 
-    //   if (sekunda > 60) {
-    //       sekunda = 0;
-    //     minuta++;
-    //     czas = "0"+minuta+" : " + sekunda;
-    //   }
-      
-    //   if (minuta > 9){
-    //     czas= minuta+" : " + sekunda;;
-    //   }
-    
-    //             document.getElementById("czas").innerHTML = czas; 
-    //         },1000);
-        
-    // }
-    if (t[wiersz][kolumna] === -1 && firstMove == false) {
+    if (t[row][column] === -1 && firstMove == false) {
         bombPush = true;
         czyWygralem();
     }
     firstMove = false;
-    var button = buttonArray[wiersz][kolumna];
+    var button = buttonArray[row][column];
     if (button.style.display === "none") {
         return;
     }
     button.style.display = "none";
-    if (t[wiersz][kolumna] === 0) {
+    if (t[row][column] === 0) {
         //z prawej
-        if (kolumna < wielkoscPlanszyMinus1) {
-            odkryjPole(wiersz, kolumna + 1);
+        if (column < boardSizeMinus1) {
+            odkryjPole(row, column + 1);
         }
         // z lewej
-        if (kolumna > 0) {
-            odkryjPole(wiersz, kolumna - 1);
+        if (column > 0) {
+            odkryjPole(row, column - 1);
         }
         // z góry
-        if (wiersz > 0) {
-            odkryjPole(wiersz - 1, kolumna);
+        if (row > 0) {
+            odkryjPole(row - 1, column);
         }
         // z dołu
-        if (wiersz < wielkoscPlanszyMinus1) {
-            odkryjPole(wiersz + 1, kolumna);
+        if (row < boardSizeMinus1) {
+            odkryjPole(row + 1, column);
 
         }
         // prawo góra
-        if (wiersz > 0 && kolumna < wielkoscPlanszyMinus1) {
-            odkryjPole(wiersz - 1, kolumna + 1);
+        if (row > 0 && column < boardSizeMinus1) {
+            odkryjPole(row - 1, column + 1);
 
         }
         // lewo góra
-        if (wiersz > 0 && kolumna > 0) {
-            odkryjPole(wiersz - 1, kolumna - 1);
+        if (row > 0 && column > 0) {
+            odkryjPole(row - 1, column - 1);
 
         }
         // lewo dół
-        if (wiersz < wielkoscPlanszyMinus1 && kolumna > 0) {
-            odkryjPole(wiersz + 1, kolumna - 1);
+        if (row < boardSizeMinus1 && column > 0) {
+            odkryjPole(row + 1, column - 1);
         }
         // prawo dół
-        if (wiersz < wielkoscPlanszyMinus1 && kolumna < wielkoscPlanszyMinus1) {
-            odkryjPole(wiersz + 1, kolumna + 1);
+        if (row < boardSizeMinus1 && column < boardSizeMinus1) {
+            odkryjPole(row + 1, column + 1);
         }
 
     }
-    ileRuchow--;
+    numberOfMoves--;
 }
-function somsiad(wiersz, kolumna, wartosc) {
+function somsiad(row, column, wartosc) {
     // z prawej
-    if (kolumna < wielkoscPlanszyMinus1 && t[wiersz][kolumna + 1] != -1) {
-        t[wiersz][kolumna + 1] += wartosc;
+    if (column < boardSizeMinus1 && t[row][column + 1] != -1) {
+        t[row][column + 1] += wartosc;
     }
     // z lewej
-    if (kolumna > 0 && t[wiersz][kolumna - 1] != -1) {
-        t[wiersz][kolumna - 1] += wartosc;
+    if (column > 0 && t[row][column - 1] != -1) {
+        t[row][column - 1] += wartosc;
     }
     // z góry
-    if (wiersz > 0 && t[wiersz - 1][kolumna] != -1) {
-        t[wiersz - 1][kolumna] += wartosc;
+    if (row > 0 && t[row - 1][column] != -1) {
+        t[row - 1][column] += wartosc;
     }
     // z dołu
-    if (wiersz < wielkoscPlanszyMinus1 && t[wiersz + 1][kolumna] != -1) {
-        t[wiersz + 1][kolumna] += wartosc;
+    if (row < boardSizeMinus1 && t[row + 1][column] != -1) {
+        t[row + 1][column] += wartosc;
     }
     // prawo góra
-    if (wiersz > 0 && kolumna < wielkoscPlanszyMinus1 && t[wiersz - 1][kolumna + 1] != -1) {
-        t[wiersz - 1][kolumna + 1] += wartosc;
+    if (row > 0 && column < boardSizeMinus1 && t[row - 1][column + 1] != -1) {
+        t[row - 1][column + 1] += wartosc;
     }
     // lewo góra
-    if (wiersz > 0 && kolumna > 0 && t[wiersz - 1][kolumna - 1] != -1) {
-        t[wiersz - 1][kolumna - 1] += wartosc;
+    if (row > 0 && column > 0 && t[row - 1][column - 1] != -1) {
+        t[row - 1][column - 1] += wartosc;
     }
     // lewo dół
-    if (wiersz < wielkoscPlanszyMinus1 && kolumna > 0 && t[wiersz + 1][kolumna - 1] != -1) {
-        t[wiersz + 1][kolumna - 1] += wartosc;
+    if (row < boardSizeMinus1 && column > 0 && t[row + 1][column - 1] != -1) {
+        t[row + 1][column - 1] += wartosc;
     }
     // prawo dół
-    if (wiersz < wielkoscPlanszyMinus1 && kolumna < wielkoscPlanszyMinus1 && t[wiersz + 1][kolumna + 1] != -1) {
-        t[wiersz + 1][kolumna + 1] += wartosc;
+    if (row < boardSizeMinus1 && column < boardSizeMinus1 && t[row + 1][column + 1] != -1) {
+        t[row + 1][column + 1] += wartosc;
     }
 }
-function PostawBomby() {
+function setBombs() {
 
-    while (ileBomb > 0) {
-        var wiersz = Math.floor(Math.random() * wielkoscPlanszy);
-        var kolumna = Math.floor(Math.random() * wielkoscPlanszy);
-        if (t[wiersz][kolumna] != -1) {
-            t[wiersz][kolumna] = -1;
-            t[wiersz][kolumna].className += "bomba";
-            somsiad(wiersz, kolumna, 1);
-            ileBomb--;
+    while (numberOfBombs > 0) {
+        var row = Math.floor(Math.random() * boardSize);
+        var column = Math.floor(Math.random() * boardSize);
+        if (t[row][column] != -1) {
+            t[row][column] = -1;
+            t[row][column].className += "bomb";
+            somsiad(row, column, 1);
+            numberOfBombs--;
         }
     }
 }
 
 addEventListener("contextmenu", function () {
-    event.preventDefault();
+    preventDefault();
 });
 
 function poziomTrudnoscOnmouse(nazwa) {
     switch (nazwa) {
-        case "Łatwy":
-            document.getElementById(nazwa).innerHTML = "Wielkość planszy: </br> 9x9<br>Ilość Bomb: <br>10";
+        case "Easy":
+            document.getElementById(nazwa).innerHTML = "Board Size: </br> 9x9<br>Number of Bombs: <br>10";
             break;
-        case "Trudny":
-            document.getElementById(nazwa).innerHTML = "Wielkość planszy: </br> 16x16<br>Ilość Bomb: <br>40";
+        case "Hard":
+            document.getElementById(nazwa).innerHTML = "Board Size: </br> 16x16<br>Number of Bombs: <br>40";
             break;
-        case "Brutalny":
-            document.getElementById(nazwa).innerHTML = "Wielkość planszy: </br> 24x24<br>Ilość Bomb: <br>99";
+        case "Brutal":
+            document.getElementById(nazwa).innerHTML = "Board Size: </br> 24x24<br>Number of Bombs: <br>99";
             break;
         default:
             break;
@@ -228,44 +202,44 @@ function poziomTrudnoscOnmouse(nazwa) {
 
 }
 function startGry(x, y) {
-    wielkoscPlanszy = x;
-    ileBomb = y;
+    boardSize = x;
+    numberOfBombs = y;
     firstMove = true;
-    wielkoscPlanszyMinus1 = wielkoscPlanszy - 1
-    rozmiarTabeli = Math.pow(wielkoscPlanszy, 2);
-    ileFlag = ileBomb;
-    ileRuchow = rozmiarTabeli - ileBomb;
+    boardSizeMinus1 = boardSize - 1
+    tableSize = Math.pow(boardSize, 2);
+    numberOfFlags = numberOfBombs;
+    numberOfMoves = tableSize - numberOfBombs;
     gameOver = false;
     document.getElementById("hideAll").style.display = "none";
-    document.getElementById("wygrana").style.display = "block";
-    UtworzPlansze();
-    PostawBomby();
-    PokazPlansze();
+    document.getElementById("victory").style.display = "block";
+    createBoard();
+    setBombs();
+    showBoard();
 }
-function poziomTrudnoscOutMouse(nazwa) {
+function setGame(nazwa) {
     document.getElementById(nazwa).innerHTML = nazwa;
 
 }
 function czyWygralem() {
-    if ((ileRuchow == 0) && (ileFlag == 0) && (gameOver == false)) {
+    if ((numberOfMoves == 0) && (numberOfFlags == 0) && (gameOver == false)) {
         gameOver = true;
         document.getElementById("Tabela").remove();
-        document.getElementById("wygrana").style.display = "none";
+        document.getElementById("victory").style.display = "none";
         document.getElementById("Reset").style.display = "block";
-        document.getElementById("wynik").innerHTML = "&#128293;Wygrana&#128293;</br>&#128079&#128079&#128079";
+        document.getElementById("score").innerHTML = "Victory";
     }
     else if (bombPush == true) {
         gameOver = true;
         bombPush = false;
         document.getElementById("Tabela").remove();
-        document.getElementById("wygrana").style.display = "none";
+        document.getElementById("victory").style.display = "none";
         document.getElementById("Reset").style.display = "block";
-        document.getElementById("wynik").innerHTML = "&#128557;Przegrana&#128557;</br>&#128078;&#128078;&#128078;";
+        document.getElementById("score").innerHTML = "Game Over ";
     }
 }
 
 function reset() {
     document.getElementById("Reset").style.display = "none";
     document.getElementById("hideAll").style.display = "block";
-    document.getElementById("wynik").innerHTML = "";
+    document.getElementById("score").innerHTML = "";
 }
