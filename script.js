@@ -185,7 +185,7 @@ addEventListener("contextmenu", function () {
     preventDefault();
 });
 
-function poziomTrudnoscOnmouse(nazwa) {
+function gameModeOnMouse(nazwa) {
     switch (nazwa) {
         case "Easy":
             document.getElementById(nazwa).innerHTML = "Board Size: </br> 9x9<br>Number of Bombs: <br>10";
@@ -226,7 +226,7 @@ function czyWygralem() {
         document.getElementById("Tabela").remove();
         document.getElementById("victory").style.display = "none";
         document.getElementById("Reset").style.display = "block";
-        document.getElementById("score").innerHTML = "Victory";
+        document.getElementById("score").innerHTML = "Victory`";
     }
     else if (bombPush == true) {
         gameOver = true;
